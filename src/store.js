@@ -3,7 +3,7 @@ import { createSlice, configureStore } from '@reduxjs/toolkit'
 const formSlice = createSlice({
   name: 'form',
   initialState: {
-    steps: ['General', 'Contact information', 'Credentials'],
+    steps: ['General', 'Contact info', 'Password'],
     currentStep: 0,
     data: {}
   },
