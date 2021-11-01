@@ -91,6 +91,10 @@ export default function FormSteps(props){
 
   const resetButton = () => {
     dispatch(reset());
+    console.log(data);
+    formik.resetForm({
+      values: {}
+    });
   };
 
   // Rendering form depending on step index

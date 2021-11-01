@@ -35,6 +35,7 @@ const formSlice = createSlice({
     reset: (state) => {
       state.currentStep = 0;
       state.data = initialState.data;
+      console.log(state.data);
     }
   }
 });
