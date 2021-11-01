@@ -5,16 +5,20 @@ const formSlice = createSlice({
   initialState: {
     steps: ['General', 'Contact information', 'Credentials'],
     currentStep: 0,
+    data: {}
   },
   reducers: {
-    goNext: state => {
+    goNext: (state, newData) => {
+      state.data = {...state.data, ...JSON.parse(newData.payload)};
+      console.log(state.data);
       state.currentStep += 1;
     },
-    goBack: state => {
+    goBack: (state) => {
       state.currentStep -= 1;
     },
-    reset: state => {
+    reset: (state) => {
       state.currentStep = 0;
+      state.data = {};
     }
   }
 });

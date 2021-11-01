@@ -1,19 +1,11 @@
 import './App.scss';
 
-import { React, useState } from 'react';
-
-import { useTheme } from '@mui/material/styles';
-
 import { Container, Card } from '@mui/material';
 
 import FormStepper from './Components/FormStepper';
-import Form from './Components/Form';
+import FormSteps from './Components/FormSteps';
 
 function App() {
-
-  const theme = useTheme();
-
-
 
   return (
   <Container>
@@ -23,7 +15,7 @@ function App() {
       
       <FormStepper></FormStepper>
 
-      <Form></Form>
+      <FormSteps></FormSteps>
 
       
     </Card>
