@@ -1,6 +1,14 @@
+$error: rgb(255, 161, 98);
+
 .form {
   width: 100vw;
   max-width: 600px;
   margin: 5% auto 0 auto;
   padding: 2.5rem;
+
+  
+  error {
+    color: $error;
+  }
+
 }

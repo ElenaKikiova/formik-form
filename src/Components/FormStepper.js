@@ -1,61 +1,110 @@
-import { React } from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Typography from '@mui/material/Typography';
 
-import { useSelector } from 'react-redux';
+import { React, Children, useState } from 'react';
+
+import  { Formik, Form } from 'formik';
+import { Button, Box, Stepper, Step, StepLabel, Typography } from '@mui/material';
 
 import FIELDS from '../fields';
 
+export default function FormStepper({children, ...props}){
 
-export default function FormStepper(props) {
+  const stepsArray = Children.toArray(children);
+  const [step, setStep] = useState(0);
+  const currentStep = stepsArray[step];
 
-  // Store state for steps
-  const steps = useSelector((store) => store.steps);
-  const currentStep = useSelector((store) => store.currentStep);
-  const data = useSelector((store) => store.data);
+  console.log(currentStep, props);
+
+  const [submitted, setSubmitted] = useState(false);
+  const [data, setData] = useState({});
+
+  const isLastStep = () => {
+    return step === stepsArray.length - 1;
+  };
+
+  const goBack = () => {
+    setStep((step) => step - 1);
+  }
+
+  const submit = async (values, helpers) => {
+    console.log(values)
+    if(!isLastStep()){
+      setStep((step) => step + 1);
+    }
+    else{
+      await props.onSubmit(values, helpers);
+    }
+  }
+
+  console.log(currentStep.props.validationSchema)
 
 
-  // Render stepper
-  return (
-    <Box sx={{ width: '100%', margin: '2.5rem 0 2rem 0' }}>
-      {
-        currentStep === steps.length ? (
-        <>
-          <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
-            All steps completed. Thank you for signing up!
-          </Typography>
-          <ul>
-            {
-              Object.keys(data).map((field) => (
-                data[field] !== "" && field !== "password" ? (
-                  <li>{FIELDS[field]}: {data[field]}</li>
-                ) : ''
-              ))
-            } 
-          </ul>
-        </>
-        ) : (
-          <Stepper activeStep={currentStep}>
-            {steps.map((label, index) => {
+  return(
+    <Formik
+      {...props}
+      validationSchema={currentStep.props.validationSchema}
+      onSubmit={(values, helpers) => {
+        console.log(values, helpers)
+        if(!isLastStep()){
+          setStep((step) => step + 1);
+        }
+        else{
+          setSubmitted(true);
+          delete values.repeatPassword;
+          setData(values);
+        }
+      }}
+      >
+      <Form autoComplete="off">
+
+        <Box sx={{ width: '100%', margin: '2.5rem 0 2rem 0' }}>
+          <Stepper activeStep={step}>
+            {stepsArray.map((child, index) => {
               const stepProps = {};
               const labelProps = {};
 
-              if(currentStep > index) {
+              if(step > index) {
                 stepProps.completed = true;
               }
 
               return (
-                <Step key={label} {...stepProps}>
-                  <StepLabel {...labelProps}>{label}</StepLabel>
+                <Step key={child.props.label} {...stepProps}>
+                  <StepLabel {...labelProps}>{child.props.label}</StepLabel>
                 </Step>
               );
             })}
           </Stepper>
-        ) 
-      }
-    </Box>
+        </Box>
+
+        { !submitted ? 
+        
+          <Box>
+
+            {currentStep}
+            
+            <Box sx={{ display: 'flex', marginTop: '1.5rem', justifyContent: 'space-between' }}>
+              <Button onClick={goBack} disabled={step === 0}>BACK</Button>
+              <Button type="submit">{!isLastStep() ? 'NEXT' : 'SUBMIT'}</Button>
+            </Box>
+
+          </Box>
+        :
+          <Box>
+            <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
+              All steps completed. Thank you for signing up!
+            </Typography>
+            <ul>
+              {
+                Object.keys(data).map((field) => (
+                  data[field] !== "" && field !== "password" ? (
+                    <li>{FIELDS[field]}: {data[field]}</li>
+                  ) : ''
+                ))
+              } 
+            </ul>
+          </Box>
+        }
+
+      </Form>
+    </Formik>
   );
 }

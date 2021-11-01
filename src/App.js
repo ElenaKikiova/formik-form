@@ -1,10 +1,10 @@
 import './App.scss';
 
-import { Container, Card, TextField, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
+import { Container, Card, TextField, Button, FormControl, InputLabel, Select, MenuItem, Box, Typography, Alert } from '@mui/material';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-import Stepper from './Components/Stepper';
+import FormStepper from './Components/FormStepper';
 import Step from './Components/Step';
 // import { React, useState } from 'react';
 
@@ -55,8 +55,12 @@ function App() {
   return (
   <Container>
     <Card variant="outlined" className="form">
+
+      <Typography variant="h3">
+        Formik form
+      </Typography>
       
-      <Stepper
+      <FormStepper
         initialValues={{
           firstName: '',
           middleName: '',
@@ -71,7 +75,8 @@ function App() {
         }}
         onSubmit={() => {}}
       >
-        <Step validationSchema={validation[0]}>
+
+        <Step label="General" validationSchema={validation[0]}>
           <Field
             name="firstName"
             component={(({ field }) => (
@@ -80,10 +85,10 @@ function App() {
                 margin="normal"
                 fullWidth
                 label={FIELDS.firstName} 
-                {...field} 
+                {...field}
               />
             ))} />
-            <ErrorMessage name="firstName"/>
+            <ErrorMessage name="firstName" component="Error"/>
           <Field
             name="middleName"
             component={(({ field }) => (
@@ -95,7 +100,7 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="middleName"/>
+            <ErrorMessage name="middleName" className="error"/>
           <Field
             name="lastName"
             component={(({ field }) => (
@@ -107,7 +112,7 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="lastName"/>
+            <ErrorMessage name="lastName" className="error"/>
           <Field
             name="hairColor"
             component={(({ field }) => (
@@ -127,7 +132,7 @@ function App() {
                 </Select>
               </FormControl>
             ))} />
-            <ErrorMessage name="hairColor"/>
+            <ErrorMessage name="hairColor" className="error"/>
           <Field
             name="gender"
             component={(({ field }) => (
@@ -144,10 +149,10 @@ function App() {
                 </Select>
               </FormControl>
             ))} />
-            <ErrorMessage name="hairColor"/>
-
+            <ErrorMessage name="hairColor" className="error"/>
         </Step>
-        <Step validationSchema={validation[1]}>
+
+        <Step label="Contact info" validationSchema={validation[1]}>
           <Field
             name="phone"
             render={(({ field }) => (
@@ -160,7 +165,7 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="phone"/>
+            <ErrorMessage name="phone" className="error"/>
           <Field
             name="email"
             render={(({ field }) => (
@@ -173,7 +178,7 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="email"/>
+            <ErrorMessage name="email" className="error"/>
           <Field 
             name="address"
             render={(({ field }) => (
@@ -186,9 +191,10 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="address"/>
+            <ErrorMessage name="address" className="error"/>
         </Step>
-        <Step validationSchema={validation[2]}>
+
+        <Step label="Password" validationSchema={validation[2]}>
           <Field
             name="password"
             render={(({ field }) => (
@@ -202,7 +208,7 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="password"/>
+            <ErrorMessage name="password" className="error"/>
           <Field fullWidth
             name="repeatPassword"
             render={(({ field }) => (
@@ -216,12 +222,16 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="repeatPassword"/>
+            <ErrorMessage name="repeatPassword" className="error"/>
         </Step>
         
-      </Stepper>
+      </FormStepper>
     </Card>
   </Container>);
 }
 
 export default App;
+
+export function Error(message){
+  return <Typography className="error">{message}</Typography>
+}
