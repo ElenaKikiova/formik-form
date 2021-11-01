@@ -1,6 +1,6 @@
 import './App.scss';
 
-import { Container, Card, TextField } from '@mui/material';
+import { Container, Card, TextField, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
@@ -11,6 +11,7 @@ import Step from './Components/Step';
 import * as Yup from 'yup';
 
 import REGEX from './regex';
+import FIELDS from './fields';
 
 function App() {
 
@@ -71,45 +72,151 @@ function App() {
         onSubmit={() => {}}
       >
         <Step validationSchema={validation[0]}>
-          <Field fullWidth
+          <Field
             name="firstName"
-            render={(({ field }) => (
+            component={(({ field }) => (
               <TextField 
                 variant="outlined"
                 margin="normal"
                 fullWidth
-                label="First name"
-                name="firstName" 
+                label={FIELDS.firstName} 
                 {...field} 
               />
             ))} />
             <ErrorMessage name="firstName"/>
-          <Field fullWidth
+          <Field
             name="middleName"
-            render={(({ field }) => (
+            component={(({ field }) => (
               <TextField 
                 variant="outlined"
                 margin="normal"
                 fullWidth
-                label="Middle name"
-                name="middleName"
+                label={FIELDS.middleName} 
                 {...field} 
               />
             ))} />
             <ErrorMessage name="middleName"/>
-          <Field fullWidth
+          <Field
             name="lastName"
+            component={(({ field }) => (
+              <TextField 
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                label={FIELDS.lastName} 
+                {...field} 
+              />
+            ))} />
+            <ErrorMessage name="lastName"/>
+          <Field
+            name="hairColor"
+            component={(({ field }) => (
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="hairColor-label-select">{FIELDS.hairColor}</InputLabel>
+                <Select
+                  id="hairColor-select"
+                  label={FIELDS.hairColor} 
+                  {...field}
+                >
+                  <MenuItem value={"Black"}>Black</MenuItem>
+                  <MenuItem value={"Brown"}>Brown</MenuItem>
+                  <MenuItem value={"Blonde"}>Blonde</MenuItem>
+                  <MenuItem value={"Red"}>Red</MenuItem>
+                  <MenuItem value={"Grey"}>Grey</MenuItem>
+                  <MenuItem value={"Other"}>Other</MenuItem>
+                </Select>
+              </FormControl>
+            ))} />
+            <ErrorMessage name="hairColor"/>
+          <Field
+            name="gender"
+            component={(({ field }) => (
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="hairColor-label-select">{FIELDS.gender}</InputLabel>
+                <Select
+                  id="hairColor-select"
+                  label={FIELDS.gender} 
+                  {...field}
+                >
+                  <MenuItem value={"Male"}>Male</MenuItem>
+                  <MenuItem value={"Female"}>Female</MenuItem>
+                  <MenuItem value={"Prefer not to say"}>Prefer not to say</MenuItem>
+                </Select>
+              </FormControl>
+            ))} />
+            <ErrorMessage name="hairColor"/>
+
+        </Step>
+        <Step validationSchema={validation[1]}>
+          <Field
+            name="phone"
             render={(({ field }) => (
               <TextField 
                 variant="outlined"
                 margin="normal"
                 fullWidth
-                label="Last name"
-                name="lastName"
+                label={FIELDS.phone}
+                name="phone" 
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="lastName"/>
+            <ErrorMessage name="phone"/>
+          <Field
+            name="email"
+            render={(({ field }) => (
+              <TextField 
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                label={FIELDS.email}
+                name="email"
+                {...field} 
+              />
+            ))} />
+            <ErrorMessage name="email"/>
+          <Field 
+            name="address"
+            render={(({ field }) => (
+              <TextField 
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                label="Address"
+                name="address"
+                {...field} 
+              />
+            ))} />
+            <ErrorMessage name="address"/>
+        </Step>
+        <Step validationSchema={validation[2]}>
+          <Field
+            name="password"
+            render={(({ field }) => (
+              <TextField 
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                type="password"
+                label="Password"
+                name="password" 
+                {...field} 
+              />
+            ))} />
+            <ErrorMessage name="password"/>
+          <Field fullWidth
+            name="repeatPassword"
+            render={(({ field }) => (
+              <TextField 
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                type="password"
+                label="Repeat password"
+                name="repeatPassword"
+                {...field} 
+              />
+            ))} />
+            <ErrorMessage name="repeatPassword"/>
         </Step>
         
       </Stepper>
