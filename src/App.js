@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+
+import { React, useState } from 'react';
+
+import { useTheme } from '@mui/material/styles';
+
+import { Container, Card } from '@mui/material';
+
+import FormStepper from './Components/FormStepper';
+import Form from './Components/Form';
 
 function App() {
+
+  const theme = useTheme();
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  <Container>
+    <Card variant="outlined" className="form">
+      <h1>Formik form</h1>
+
+      
+      <FormStepper></FormStepper>
+
+      <Form></Form>
+
+      
+    </Card>
+  </Container>);
 }
 
 export default App;
