@@ -24,7 +24,7 @@ export default function FormStepper(props) {
 
   // Render stepper
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', margin: '2.5rem 0 2rem 0' }}>
       <Stepper activeStep={currentStep}>
         {steps.map((label, index) => {
           const stepProps = {};

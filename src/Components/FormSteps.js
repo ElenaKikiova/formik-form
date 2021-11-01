@@ -3,7 +3,7 @@ import { React, useState } from 'react';
 
 import { Formik, Form, useFormik } from 'formik';
 
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -111,31 +111,31 @@ export default function FormSteps(props){
       case 0: 
         return (
           <>
-            <TextField 
+            <TextField fullWidth
               id="firstName" label="First name" name="firstName" 
-              variant="outlined" 
+              variant="outlined" margin="normal"  
               value={formik.values.firstName}
               onChange={formik.handleChange}
               error={formik.touched.firstName && Boolean(formik.errors.firstName)}
               helperText={formik.touched.firstName && formik.errors.firstName}
             />
-            <TextField 
+            <TextField fullWidth
               id="middleName" label="Middle name" name="middleName" 
-              variant="outlined" 
+              variant="outlined" margin="normal"  
               value={formik.values.middleName}
               onChange={formik.handleChange}
               error={formik.touched.middleName && Boolean(formik.errors.middleName)}
               helperText={formik.touched.middleName && formik.errors.middleName}
             />
-            <TextField 
+            <TextField fullWidth
               id="lastName" label="Last name" name="lastName" 
-              variant="outlined" 
+              variant="outlined" margin="normal"  
               value={formik.values.lastName}
               onChange={formik.handleChange}
               error={formik.touched.lastName && Boolean(formik.errors.lastName)}
               helperText={formik.touched.lastName && formik.errors.lastName}
             />
-            <FormControl>
+            <FormControl fullWidth margin="normal" >
               <InputLabel id="gender-select">Hair color</InputLabel>
               <Select
                 labelId="hairColor-label"
@@ -153,7 +153,7 @@ export default function FormSteps(props){
               </Select>
             </FormControl>
 
-            <FormControl>
+            <FormControl fullWidth margin="normal" >
               <InputLabel id="gender-select">Gender</InputLabel>
               <Select
                 labelId="gender-label"
@@ -173,25 +173,25 @@ export default function FormSteps(props){
       case 1: 
         return (
           <>
-            <TextField 
+            <TextField fullWidth
               id="phone" label="Phone number" name="phone" 
-              variant="outlined"
+              variant="outlined" margin="normal" 
               value={formik.values.phone}
               onChange={formik.handleChange}
               error={formik.touched.phone && Boolean(formik.errors.phone)}
               helperText={formik.touched.phone && formik.errors.phone}
             />
-            <TextField 
+            <TextField fullWidth
               id="email" label="Email" name="email" 
-              variant="outlined" 
+              variant="outlined" margin="normal" 
               value={formik.values.email}
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
             />
-            <TextField 
+            <TextField fullWidth
               id="address" label="Address" name="address" 
-              variant="outlined" 
+              variant="outlined" margin="normal" 
               value={formik.values.address}
               onChange={formik.handleChange}
               error={formik.touched.address && Boolean(formik.errors.address)}
@@ -203,17 +203,17 @@ export default function FormSteps(props){
       case 2: 
         return (
           <>
-            <TextField 
+            <TextField fullWidth
               id="password" label="Password" name="password" 
-              variant="outlined" type="password"
+              variant="outlined" type="password" margin="normal" 
               value={formik.values.password}
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
             />
-            <TextField 
+            <TextField fullWidth
               id="repeatPassword" label="Repeat password" name="repeatPassword" 
-              variant="outlined" type="password"
+              variant="outlined" type="password" margin="normal" 
               value={formik.values.repeatPassword}
               onChange={formik.handleChange}
               error={formik.touched.repeatPassword && Boolean(formik.errors.repeatPassword)}
@@ -236,10 +236,10 @@ export default function FormSteps(props){
         { renderForm() }
         { 
           currentStep < steps.length ? (
-            <>
+            <Box sx={{ display: 'flex', marginTop: '1.5rem', justifyContent: 'space-between' }}>
+              <Button type="submit" disabled={currentStep === 0}>BACK</Button>
               <Button type="submit">NEXT</Button>
-              { currentStep > 0 ? <Button type="submit">BACK</Button> : '' }
-            </>
+            </Box>
           ) : ''
         }
       )
