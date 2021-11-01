@@ -3,7 +3,7 @@ import { React, useState } from 'react';
 
 import { Formik, Form, useFormik } from 'formik';
 
-import { TextField, FormHelperText, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -15,9 +15,14 @@ import REGEX from '../regex';
 export default function FormSteps(props){
   const dispatch = useDispatch();
 
+  // Store state for steps
   const currentStep = useSelector((store) => store.currentStep);
   const steps = useSelector((store) => store.steps);
 
+  // Current values state
+  const [values, setValues] = useState({});
+
+  // Initial values for each step
   const initValues = [
     {
       firstName: '',
@@ -37,6 +42,7 @@ export default function FormSteps(props){
     },
   ]
 
+  // Validation schemas for each step
   const validation = [
     // General step validation schema
     Yup.object().shape({
@@ -74,23 +80,22 @@ export default function FormSteps(props){
     }),
   ];
 
-  const [values, setValues] = useState({});
-
+  // Formik instance 
   const formik = useFormik({
+    // Use initial values and validation depending on step index
     values: values,
     initialValues: initValues[currentStep],
     validationSchema: validation[currentStep],
+    // Track changes in the fields
     handleChange: (event) => {
       setValues(prevValues => ({
         ...prevValues,
         [event.target.name]: event.target.value
       }));
     },
-    onSubmit: values => {
-      let data = JSON.stringify(values, null, 2);
-      if(data.repeatPassword !== undefined) {
-        delete data.repeatPassword;
-      }
+    // On submit: delete repeat password field, send data to store and reset formik
+    onSubmit: data => {
+      delete data.repeatPassword;
       dispatch(goNext(data));
       if(currentStep + 1 !== steps.length){
         formik.resetForm({
@@ -100,8 +105,8 @@ export default function FormSteps(props){
     },
   });
 
+  // Rendering form depending on step index
   const renderForm = () => {
-    console.log(currentStep);
     switch (currentStep) {
       case 0: 
         return (
@@ -228,10 +233,16 @@ export default function FormSteps(props){
       validationSchema={formik.validationSchema}
     >
       <Form onSubmit={formik.handleSubmit}>
-        
         { renderForm() }
-
-        <Button type="submit">NEXT</Button>
+        { 
+          currentStep < steps.length ? (
+            <>
+              <Button type="submit">NEXT</Button>
+              { currentStep > 0 ? <Button type="submit">BACK</Button> : '' }
+            </>
+          ) : ''
+        }
+      )
       </Form>
     </Formik>
   )

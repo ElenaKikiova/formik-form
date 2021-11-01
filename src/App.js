@@ -11,13 +11,8 @@ function App() {
   <Container>
     <Card variant="outlined" className="form">
       <h1>Formik form</h1>
-
-      
       <FormStepper></FormStepper>
-
       <FormSteps></FormSteps>
-
-      
     </Card>
   </Container>);
 }

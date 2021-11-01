@@ -8,14 +8,16 @@ const formSlice = createSlice({
     data: {}
   },
   reducers: {
+    // Saves data and goes to next step
     goNext: (state, newData) => {
-      state.data = {...state.data, ...JSON.parse(newData.payload)};
-      console.log(state.data);
+      state.data = {...state.data, ...newData.payload};
       state.currentStep += 1;
     },
+    // Goes back one step
     goBack: (state) => {
       state.currentStep -= 1;
     },
+    // Resets data and goes to 1st slide
     reset: (state) => {
       state.currentStep = 0;
       state.data = {};
