@@ -8,9 +8,10 @@ import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Box } fro
 import { useDispatch, useSelector } from 'react-redux';
 
 import * as Yup from 'yup';
-import { goNext } from '../store';
+import { goNext, goBack, reset } from '../store';
 
 import REGEX from '../regex';
+import FIELDS from '../fields';
 
 export default function FormSteps(props){
   const dispatch = useDispatch();
@@ -18,29 +19,10 @@ export default function FormSteps(props){
   // Store state for steps
   const currentStep = useSelector((store) => store.currentStep);
   const steps = useSelector((store) => store.steps);
+  const data = useSelector((store) => store.data);
 
   // Current values state
   const [values, setValues] = useState({});
-
-  // Initial values for each step
-  const initValues = [
-    {
-      firstName: '',
-      middleName: '',
-      lastName: '',
-      hairColor: '',
-      gender: '',
-    },
-    {
-      phone: '',
-      email: '',
-      address: '',
-    },
-    {
-      password: '',
-      repeatPassword: '',
-    },
-  ]
 
   // Validation schemas for each step
   const validation = [
@@ -84,7 +66,7 @@ export default function FormSteps(props){
   const formik = useFormik({
     // Use initial values and validation depending on step index
     values: values,
-    initialValues: initValues[currentStep],
+    initialValues: data,
     validationSchema: validation[currentStep],
     // Track changes in the fields
     handleChange: (event) => {
@@ -97,13 +79,19 @@ export default function FormSteps(props){
     onSubmit: data => {
       delete data.repeatPassword;
       dispatch(goNext(data));
-      if(currentStep + 1 !== steps.length){
-        formik.resetForm({
-          values: initValues[currentStep + 1]
-        });
-      }
+      formik.resetForm({
+        values: data
+      });
     },
   });
+
+  const goBackButton = () => {
+    dispatch(goBack());
+  }
+
+  const resetButton = () => {
+    dispatch(reset());
+  };
 
   // Rendering form depending on step index
   const renderForm = () => {
@@ -112,7 +100,7 @@ export default function FormSteps(props){
         return (
           <>
             <TextField fullWidth
-              id="firstName" label="First name" name="firstName" 
+              id="firstName" label={FIELDS.firstName} name="firstName" 
               variant="outlined" margin="normal"  
               value={formik.values.firstName}
               onChange={formik.handleChange}
@@ -120,7 +108,7 @@ export default function FormSteps(props){
               helperText={formik.touched.firstName && formik.errors.firstName}
             />
             <TextField fullWidth
-              id="middleName" label="Middle name" name="middleName" 
+              id="middleName" label={FIELDS.middleName} name="middleName" 
               variant="outlined" margin="normal"  
               value={formik.values.middleName}
               onChange={formik.handleChange}
@@ -128,7 +116,7 @@ export default function FormSteps(props){
               helperText={formik.touched.middleName && formik.errors.middleName}
             />
             <TextField fullWidth
-              id="lastName" label="Last name" name="lastName" 
+              id="lastName" label={FIELDS.lastName} name="lastName" 
               variant="outlined" margin="normal"  
               value={formik.values.lastName}
               onChange={formik.handleChange}
@@ -136,13 +124,13 @@ export default function FormSteps(props){
               helperText={formik.touched.lastName && formik.errors.lastName}
             />
             <FormControl fullWidth margin="normal" >
-              <InputLabel id="gender-select">Hair color</InputLabel>
+              <InputLabel id="gender-select">{FIELDS.hairColor}</InputLabel>
               <Select
                 labelId="hairColor-label"
                 id="hairColor-select"
                 value={formik.values.hairColor}
                 onChange={formik.handleChange("hairColor")}
-                label="Hair color"
+                label={FIELDS.hairColor}
               >
                 <MenuItem value={"Black"}>Black</MenuItem>
                 <MenuItem value={"Brown"}>Brown</MenuItem>
@@ -154,13 +142,13 @@ export default function FormSteps(props){
             </FormControl>
 
             <FormControl fullWidth margin="normal" >
-              <InputLabel id="gender-select">Gender</InputLabel>
+              <InputLabel id="gender-select">{FIELDS.gender}</InputLabel>
               <Select
                 labelId="gender-label"
                 id="gender-select"
                 value={formik.values.gender}
                 onChange={formik.handleChange("gender")}
-                label="Gender"
+                label={FIELDS.gender}
               >
                 <MenuItem value={"Male"}>Male</MenuItem>
                 <MenuItem value={"Female"}>Female</MenuItem>
@@ -174,7 +162,7 @@ export default function FormSteps(props){
         return (
           <>
             <TextField fullWidth
-              id="phone" label="Phone number" name="phone" 
+              id="phone" label={FIELDS.phone} name="phone" 
               variant="outlined" margin="normal" 
               value={formik.values.phone}
               onChange={formik.handleChange}
@@ -182,7 +170,7 @@ export default function FormSteps(props){
               helperText={formik.touched.phone && formik.errors.phone}
             />
             <TextField fullWidth
-              id="email" label="Email" name="email" 
+              id="email" label={FIELDS.email} name="email" 
               variant="outlined" margin="normal" 
               value={formik.values.email}
               onChange={formik.handleChange}
@@ -190,7 +178,7 @@ export default function FormSteps(props){
               helperText={formik.touched.email && formik.errors.email}
             />
             <TextField fullWidth
-              id="address" label="Address" name="address" 
+              id="address" label={FIELDS.address} name="address" 
               variant="outlined" margin="normal" 
               value={formik.values.address}
               onChange={formik.handleChange}
@@ -204,7 +192,7 @@ export default function FormSteps(props){
         return (
           <>
             <TextField fullWidth
-              id="password" label="Password" name="password" 
+              id="password" label={FIELDS.password} name="password" 
               variant="outlined" type="password" margin="normal" 
               value={formik.values.password}
               onChange={formik.handleChange}
@@ -212,7 +200,7 @@ export default function FormSteps(props){
               helperText={formik.touched.password && formik.errors.password}
             />
             <TextField fullWidth
-              id="repeatPassword" label="Repeat password" name="repeatPassword" 
+              id="repeatPassword" label={FIELDS.repeatPassword} name="repeatPassword" 
               variant="outlined" type="password" margin="normal" 
               value={formik.values.repeatPassword}
               onChange={formik.handleChange}
@@ -234,15 +222,20 @@ export default function FormSteps(props){
     >
       <Form onSubmit={formik.handleSubmit}>
         { renderForm() }
-        { 
-          currentStep < steps.length ? (
-            <Box sx={{ display: 'flex', marginTop: '1.5rem', justifyContent: 'space-between' }}>
-              <Button type="submit" disabled={currentStep === 0}>BACK</Button>
-              <Button type="submit">NEXT</Button>
-            </Box>
-          ) : ''
-        }
-      )
+        
+        <Box sx={{ display: 'flex', marginTop: '1.5rem', justifyContent: 'space-between' }}>
+          {
+            currentStep < steps.length ? (
+              <>
+                <Button onClick={goBackButton} disabled={currentStep === 0}>BACK</Button>
+                <Button type="submit">NEXT</Button>
+              </>
+            )
+            : (
+              <Button onClick={resetButton}>Reset</Button>
+            )
+          }
+          </Box>
       </Form>
     </Formik>
   )

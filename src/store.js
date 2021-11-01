@@ -1,12 +1,25 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit'
 
+const initialState = {
+  steps: ['General', 'Contact info', 'Password'],
+  currentStep: 0,
+  data: { 
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    hairColor: '',
+    gender: '',
+    phone: '',
+    email: '',
+    address: '',
+    password: '',
+    repeatPassword: ''
+  },
+};
+
 const formSlice = createSlice({
   name: 'form',
-  initialState: {
-    steps: ['General', 'Contact info', 'Password'],
-    currentStep: 0,
-    data: {}
-  },
+  initialState: initialState,
   reducers: {
     // Saves data and goes to next step
     goNext: (state, newData) => {
@@ -16,11 +29,12 @@ const formSlice = createSlice({
     // Goes back one step
     goBack: (state) => {
       state.currentStep -= 1;
+      console.log(state);
     },
     // Resets data and goes to 1st slide
     reset: (state) => {
       state.currentStep = 0;
-      state.data = {};
+      state.data = initialState.data;
     }
   }
 });
