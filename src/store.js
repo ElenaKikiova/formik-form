@@ -29,13 +29,11 @@ const formSlice = createSlice({
     // Goes back one step
     goBack: (state) => {
       state.currentStep -= 1;
-      console.log(state);
     },
     // Resets data and goes to 1st slide
     reset: (state) => {
       state.currentStep = 0;
       state.data = initialState.data;
-      console.log(state.data);
     }
   }
 });
