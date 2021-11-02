@@ -1,14 +1,8 @@
 import './App.scss';
-
 import { Container, Card, TextField, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
-
 import { Field, ErrorMessage } from 'formik';
-
-import FormStepper from './Components/FormStepper';
-import Step from './Components/Step';
-
+import FormStepper from './FormStepper';
 import * as Yup from 'yup';
-
 import REGEX from './regex';
 import FIELDS from './fields';
 
@@ -54,11 +48,9 @@ function App() {
   return (
   <Container>
     <Card variant="outlined" className="form">
-
       <Typography variant="h3">
         Formik form
       </Typography>
-      
       <FormStepper
         initialValues={{
           firstName: '',
@@ -74,7 +66,6 @@ function App() {
         }}
         onSubmit={() => {}}
       >
-
         <Step label="General" validationSchema={validation[0]}>
           <Field
             name="firstName"
@@ -99,7 +90,7 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="middleName" className="error"/>
+            <ErrorMessage name="middleName" component="Error"/>
           <Field
             name="lastName"
             component={(({ field }) => (
@@ -111,7 +102,7 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="lastName" className="error"/>
+            <ErrorMessage name="lastName" component="Error"/>
           <Field
             name="hairColor"
             component={(({ field }) => (
@@ -131,7 +122,7 @@ function App() {
                 </Select>
               </FormControl>
             ))} />
-            <ErrorMessage name="hairColor" className="error"/>
+            <ErrorMessage name="hairColor" component="Error"/>
           <Field
             name="gender"
             component={(({ field }) => (
@@ -148,9 +139,9 @@ function App() {
                 </Select>
               </FormControl>
             ))} />
-            <ErrorMessage name="hairColor" className="error"/>
+            <ErrorMessage name="hairColor" component="Error"/>
         </Step>
-
+        
         <Step label="Contact info" validationSchema={validation[1]}>
           <Field
             name="phone"
@@ -164,7 +155,7 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="phone" className="error"/>
+            <ErrorMessage name="phone" component="Error"/>
           <Field
             name="email"
             render={(({ field }) => (
@@ -177,7 +168,7 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="email" className="error"/>
+            <ErrorMessage name="email" component="Error"/>
           <Field 
             name="address"
             render={(({ field }) => (
@@ -190,7 +181,7 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="address" className="error"/>
+            <ErrorMessage name="address" component="Error"/>
         </Step>
 
         <Step label="Password" validationSchema={validation[2]}>
@@ -207,7 +198,7 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="password" className="error"/>
+            <ErrorMessage name="password" component="Error"/>
           <Field fullWidth
             name="repeatPassword"
             render={(({ field }) => (
@@ -221,7 +212,7 @@ function App() {
                 {...field} 
               />
             ))} />
-            <ErrorMessage name="repeatPassword" className="error"/>
+            <ErrorMessage name="repeatPassword" component="Error"/>
         </Step>
         
       </FormStepper>
@@ -231,6 +222,10 @@ function App() {
 
 export default App;
 
+export function Step({children, ...props}){
+  return <>{children}</>;
+}
+
 export function Error(message){
-  return <Typography className="error">{message}</Typography>
+  return <Typography component="Error">{message}</Typography>
 }
