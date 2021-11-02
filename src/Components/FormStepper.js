@@ -12,8 +12,6 @@ export default function FormStepper({children, ...props}){
   const [step, setStep] = useState(0);
   const currentStep = stepsArray[step];
 
-  console.log(currentStep, props);
-
   const [submitted, setSubmitted] = useState(false);
   const [data, setData] = useState({});
 
@@ -25,35 +23,23 @@ export default function FormStepper({children, ...props}){
     setStep((step) => step - 1);
   }
 
-  const submit = async (values, helpers) => {
-    console.log(values)
+  const submit = (values, helpers) => {
     if(!isLastStep()){
       setStep((step) => step + 1);
     }
     else{
-      await props.onSubmit(values, helpers);
+      setSubmitted(true);
+      delete values.repeatPassword;
+      setData(values);
     }
   }
-
-  console.log(currentStep.props.validationSchema)
 
 
   return(
     <Formik
       {...props}
       validationSchema={currentStep.props.validationSchema}
-      onSubmit={(values, helpers) => {
-        console.log(values, helpers)
-        if(!isLastStep()){
-          setStep((step) => step + 1);
-        }
-        else{
-          setSubmitted(true);
-          delete values.repeatPassword;
-          setData(values);
-        }
-      }}
-      >
+      onSubmit={submit}>
       <Form autoComplete="off">
 
         <Box sx={{ width: '100%', margin: '2.5rem 0 2rem 0' }}>

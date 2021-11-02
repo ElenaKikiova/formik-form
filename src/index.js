@@ -5,10 +5,6 @@ import App from './App';
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { store } from './store';
-import { Provider } from 'react-redux';
-
-
 // Set dark theme
 const darkTheme = createTheme({
   palette: {
@@ -17,11 +13,9 @@ const darkTheme = createTheme({
 });
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
-  </Provider>,
+  <ThemeProvider theme={darkTheme}>
+    <CssBaseline />
+    <App />
+  </ThemeProvider>,
   document.getElementById('root')
 );

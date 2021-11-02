@@ -1,12 +1,11 @@
 import './App.scss';
 
-import { Container, Card, TextField, Button, FormControl, InputLabel, Select, MenuItem, Box, Typography, Alert } from '@mui/material';
+import { Container, Card, TextField, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
 
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Field, ErrorMessage } from 'formik';
 
 import FormStepper from './Components/FormStepper';
 import Step from './Components/Step';
-// import { React, useState } from 'react';
 
 import * as Yup from 'yup';
 
